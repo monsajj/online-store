@@ -119,6 +119,13 @@ return [
     |
     */
 
+    'quotes' => [
+        'Alex',
+        'John',
+        'Test',
+        'String'
+    ],
+
     'providers' => [
 
         /*
@@ -210,5 +217,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
     ],
+
+
 
 ];
