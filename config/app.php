@@ -126,6 +126,14 @@ return [
         'String'
     ],
 
+    'questions' => [
+        'Enter your first name',
+        'Enter your last name',
+        'Enter your gender',
+        'Enter your age',
+        'Enter your nickname'
+    ],
+
     'providers' => [
 
         /*
