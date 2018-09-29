@@ -167,6 +167,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\FileStorageProvider::class,
+        App\Providers\CalculatorServiceProvider::class,
 
     ],
 
@@ -216,6 +217,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'Calculator' => App\Facades\Math::class,
+
 
     ],
 

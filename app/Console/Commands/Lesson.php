@@ -5,13 +5,11 @@ namespace App\Console\Commands;
 use App\Contracts\FileStorageInterface;
 use App\Services\FileStorage\S3FileStorage;
 use Illuminate\Console\Command;
+use Calculator;
 
 class Lesson extends Command
 {
-    /**
-     * @var FileStorageInterface
-     */
-    protected $s3FileStorage;
+
 
     /**
      * The name and signature of the console command.
@@ -29,11 +27,9 @@ class Lesson extends Command
 
     /**
      * Lesson constructor.
-     * @param FileStorageInterface $s3FileStorage
      */
-    public function __construct(FileStorageInterface $s3FileStorage)
+    public function __construct()
     {
-        $this->s3FileStorage = $s3FileStorage;
         parent::__construct();
     }
 
@@ -44,6 +40,6 @@ class Lesson extends Command
      */
     public function handle()
     {
-        echo $this->s3FileStorage->upload();
+        dd(Calculator::add(1,2));
     }
 }
