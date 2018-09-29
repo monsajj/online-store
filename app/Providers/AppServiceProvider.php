@@ -2,8 +2,7 @@
 
 namespace App\Providers;
 
-use App\Contracts\FileStorageInterface;
-use App\Services\FileStorage\S3FileStorage;
+
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,9 +24,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(
-            FileStorageInterface::class,
-            S3FileStorage::class
-        );
+
     }
 }
