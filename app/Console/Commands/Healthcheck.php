@@ -21,7 +21,7 @@ class Healthcheck extends Command
      *
      * @var string
      */
-    protected $signature = 'healthcheck';
+    protected $signature = 'healthcheck {URL}';
 
     /**
      * The console command description.
@@ -44,20 +44,28 @@ class Healthcheck extends Command
     /**
      * Execute the console command.
      *
-     * @return mixed
+     * @throws GuzzleException
      */
     public function handle()
     {
 
-        $uri = $this->getUri();
-        $statusCode = $this->client->request('HEAD', $uri)->getStatusCode();
+        $url = $this->argument('URL');
+        $statusCode = $this->getStatusCodeByURL($url);
+
         Log::info($statusCode);
 //        dd($statusCode);
     }
 
-    private function getUri()
+    /**
+     * Get Status Code of the url
+     *
+     * @param $url
+     * @return mixed
+     * @throws GuzzleException
+     */
+    private function getStatusCodeByURL($url)
     {
 
-        return config('app.uri');
+        return $this->client->request('GET', $url)->getStatusCode();
     }
 }

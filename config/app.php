@@ -126,8 +126,6 @@ return [
         'String'
     ],
 
-    'uri' => 'https://github.com/monsajj/online-store/tree/master',
-
     'providers' => [
 
         /*
