@@ -6,7 +6,8 @@ use Illuminate\Console\Command;
 
 class Quiz extends Command
 {
-    /**
+
+        /**
      * The name and signature of the console command.
      *
      * @var string
@@ -21,9 +22,7 @@ class Quiz extends Command
     protected $description = 'Make quiz about user';
 
     /**
-     * Create a new command instance.
-     *
-     * @return void
+     * Quiz constructor.
      */
     public function __construct()
     {
@@ -39,22 +38,56 @@ class Quiz extends Command
     {
 
         $questions = $this->getQuestions();
-        $answers = [];
-        for($i = 0; $i < count($questions); $i++)
-        {
-            echo "$questions[$i]\n";
-            $answers[$i] = trim(fgets(STDIN));
-        }
 
-        for($i = 0; $i < 5; $i++)
-        {
-            echo "$questions[$i]/$answers[$i]\n";
-        }
+        $answers = $this->getAnswers($questions);
+
+        $this->echoAll($questions, $answers);
     }
 
+    /**
+     * Get questions from config
+     *
+     * @return \Illuminate\Config\Repository|mixed
+     */
     private function getQuestions()
     {
 
         return config('app.questions');
+    }
+
+    /**
+     * Get answers on questions
+     *
+     * @param $questions
+     * @return array
+     */
+    private function getAnswers($questions)
+    {
+        $answers = [];
+
+        for($i = 0; $i < count($questions); $i++)
+        {
+            $answers[$i] = $this->ask($questions[$i]);
+        }
+
+        return $answers;
+    }
+
+    /**
+     * Echo questions with answers
+     *
+     * @param $questions
+     * @param $answers
+     * @return mixed
+     */
+    private function echoAll($questions, $answers)
+    {
+
+        for($i = 0; $i < count($questions); $i++)
+        {
+            $this->info("$questions[$i] - $answers[$i]");
+        }
+
+        return $answers;
     }
 }
