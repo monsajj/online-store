@@ -2,12 +2,17 @@
 
 namespace App\Console\Commands;
 
+use App\Services\QuizService;
 use Illuminate\Console\Command;
 
 class Quiz extends Command
 {
+    /**
+     * @var QuizService
+     */
+    protected $quizService;
 
-        /**
+    /**
      * The name and signature of the console command.
      *
      * @var string
@@ -23,9 +28,12 @@ class Quiz extends Command
 
     /**
      * Quiz constructor.
+     * @param QuizService $quizService
      */
-    public function __construct()
+    public function __construct(QuizService $quizService)
     {
+
+        $this->quizService = $quizService;
         parent::__construct();
     }
 
@@ -37,57 +45,19 @@ class Quiz extends Command
     public function handle()
     {
 
-        $questions = $this->getQuestions();
-
-        $answers = $this->getAnswers($questions);
-
-        $this->echoAll($questions, $answers);
-    }
-
-    /**
-     * Get questions from config
-     *
-     * @return \Illuminate\Config\Repository|mixed
-     */
-    private function getQuestions()
-    {
-
-        return config('app.questions');
-    }
-
-    /**
-     * Get answers on questions
-     *
-     * @param $questions
-     * @return array
-     */
-    private function getAnswers($questions)
-    {
-        $answers = [];
+        $questions = $this->quizService->getQuestions();
 
         for($i = 0; $i < count($questions); $i++)
         {
-            $answers[$i] = $this->ask($questions[$i]);
+            $this->quizService->saveAnswer($this->ask($questions[$i]));
         }
 
-        return $answers;
-    }
-
-    /**
-     * Echo questions with answers
-     *
-     * @param $questions
-     * @param $answers
-     * @return mixed
-     */
-    private function echoAll($questions, $answers)
-    {
+        $answers = $this->quizService->getAnswers();
 
         for($i = 0; $i < count($questions); $i++)
         {
             $this->info("$questions[$i] - $answers[$i]");
         }
 
-        return $answers;
     }
 }
