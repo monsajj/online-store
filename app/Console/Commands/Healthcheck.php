@@ -2,19 +2,19 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-
-use Log;
 use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Client;
+use App\Services\HealthcheckService;
+use Illuminate\Console\Command;
+use Log;
+
 
 class Healthcheck extends Command
 {
 
     /**
-     * @var Client
+     * @var HealthcheckService
      */
-    private $client;
+    private $healthcheckService;
 
     /**
      * The name and signature of the console command.
@@ -32,12 +32,12 @@ class Healthcheck extends Command
 
     /**
      * Create a new command instance.
-     * @param $client Client
+     * @param $healthcheckService HealthcheckService
      * @return void
      */
-    public function __construct(Client $client)
+    public function __construct(HealthcheckService $healthcheckService)
     {
-        $this->client = $client;
+        $this->healthcheckService = $healthcheckService;
         parent::__construct();
     }
 
@@ -50,22 +50,9 @@ class Healthcheck extends Command
     {
 
         $url = $this->argument('URL');
-        $statusCode = $this->getStatusCodeByURL($url);
+        $statusCode = $this->healthcheckService->getStatusCodeByURL($url);
 
         Log::info($statusCode);
 //        dd($statusCode);
-    }
-
-    /**
-     * Get Status Code of the url
-     *
-     * @param $url
-     * @return mixed
-     * @throws GuzzleException
-     */
-    private function getStatusCodeByURL($url)
-    {
-
-        return $this->client->request('GET', $url)->getStatusCode();
     }
 }
